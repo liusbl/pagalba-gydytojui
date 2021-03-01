@@ -52,13 +52,18 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                 onPressed: () {
                   setState(() {
                     // TODO normal validation needed
-                    var patientCount = int.parse(controller.text) ?? 0;
-                    if (patientCount % 6 == 0) {
-                      vialCount = patientCount ~/ 6;
+                    var patientCount = int.tryParse(controller.text);
+                    if (patientCount == null) {
+                      vialCount = null;
                       isAdditionalVialNeeded = false;
                     } else {
-                      vialCount = (patientCount ~/ 6) + 1;
-                      isAdditionalVialNeeded = true;
+                      if (patientCount % 6 == 0) {
+                        vialCount = patientCount ~/ 6;
+                        isAdditionalVialNeeded = false;
+                      } else {
+                        vialCount = (patientCount ~/ 6) + 1;
+                        isAdditionalVialNeeded = true;
+                      }
                     }
                   });
                 },
@@ -79,7 +84,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
             ),
           if (vialCount != null && isAdditionalVialNeeded)
             Text(
-              '(${vialCount - 1} pacientams ir 1 atsargai)',
+              '(${vialCount - 1} flakonai pacientams ir 1 atsargai)',
               textScaleFactor: 1.2,
               textAlign: TextAlign.center,
             )
