@@ -23,6 +23,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
         title: Text('Flakonų skaičiuoklė'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -41,6 +42,13 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                   InputDecoration(border: OutlineInputBorder(), labelText: 'Pacientų kiekis'),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(onPressed: () {}, child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('SKAČIUOTI FLAKONUS'),
+            )),
+          )
         ],
       ),
     );
