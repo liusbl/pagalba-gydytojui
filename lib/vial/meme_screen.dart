@@ -4,8 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class MemeScreen extends StatefulWidget {
+  final Function() onDone;
+
+  const MemeScreen({Key key, this.onDone}) : super(key: key);
+
   @override
-  _MemeScreenState createState() => _MemeScreenState();
+  _MemeScreenState createState() => _MemeScreenState(onDone);
 }
 
 class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateMixin {
@@ -24,11 +28,14 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
     'Don\'t turn off your PC. This will take a while'
   ];
 
+  final Function() onDone;
   final random = Random();
   final progressStreamController = new StreamController<double>();
   final textStreamController = new StreamController<String>();
   var progress = 0.0;
   var text = '';
+
+  _MemeScreenState(this.onDone);
 
   @override
   void initState() {
@@ -42,7 +49,15 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
     progressStreamController.addStream(stream);
     progressStreamController.stream.listen((value) {
       setState(() {
+        print('Testing: progress: $progress');
         progress = value;
+        if (value >= 100) {
+          // FIXME this should be in onDone(), but that doesn't work
+          print('Done: $progress');
+          onDone();
+//          progressStreamController.close();
+//          textStreamController.close();
+        }
       });
     }, onDone: () {});
   }
@@ -74,6 +89,7 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
           child: Text(
             text,
             style: TextStyle(
+              fontWeight: FontWeight.w300,
               fontSize: 20.0,
               letterSpacing: 2.0,
               fontFamily: 'ComicSans',

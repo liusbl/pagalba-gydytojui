@@ -16,6 +16,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
   final ScreenConfig config;
   int vialCount;
   bool isAdditionalVialNeeded = false;
+  bool isFinished = false;
   final controller = TextEditingController();
 
   _VialCalculationScreenState(this.config);
@@ -52,7 +53,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
             child: ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    // TODO normal validation needed
+                    isFinished = false;
                     var patientCount = int.tryParse(controller.text);
                     if (patientCount == null) {
                       vialCount = null;
@@ -73,7 +74,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                   child: Text('SKAČIUOTI FLAKONUS'),
                 )),
           ),
-          if (vialCount != null)
+          if (vialCount != null && isFinished)
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -83,13 +84,18 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-          if (vialCount != null && isAdditionalVialNeeded)
+          if (vialCount != null && isFinished && isAdditionalVialNeeded)
             Text(
               '(${vialCount - 1} flakonai pacientams ir 1 atsargai)',
               textScaleFactor: 1.2,
               textAlign: TextAlign.center,
             ),
-          MemeScreen()
+          if (vialCount != null && !isFinished)
+            MemeScreen(onDone: () {
+              setState(() {
+                isFinished = true;
+              });
+            })
         ],
       ),
     );
