@@ -23,7 +23,9 @@ class MemeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        LinearProgressIndicator(),
+        LinearProgressIndicator(
+          backgroundColor: Colors.green,
+        ),
         Container(
           margin: const EdgeInsets.all(16.0),
           child: Center(child: Text(_memeList[random.nextInt(_memeList.length)])),
