@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class MemeScreen extends StatelessWidget {
-  final random = Random();
+class MemeScreen extends StatefulWidget {
+  @override
+  _MemeScreenState createState() => _MemeScreenState();
+}
+
+class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateMixin {
   static const _memeList = [
     'Scanning for viruses',
     'Connecting to AWS via Starlink',
@@ -19,33 +24,83 @@ class MemeScreen extends StatelessWidget {
     'Don\'t turn off your PC. This will take a while'
   ];
 
+  final random = Random();
+  final progressStreamController = new StreamController<int>();
+  final textStreamController = new StreamController<String>();
+  var progress = 0;
+  var text = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _setUpProgressStream();
+    _setUpTextStream();
+  }
+
+  void _setUpProgressStream() {
+    final stream = _generateRandomProgress();
+    progressStreamController.addStream(stream);
+    progressStreamController.stream.listen((value) {
+      setState(() {
+        progress = value;
+      });
+    }, onDone: () {});
+  }
+
+  void _setUpTextStream() {
+    final stream = _generateRandomText();
+    textStreamController.addStream(stream);
+    textStreamController.stream.listen((value) {
+      setState(() {
+        text = value;
+      });
+    }, onDone: () {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         LinearProgressIndicator(
-          backgroundColor: Colors.green,
+          value: progress / 100,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
+          backgroundColor: Colors.blue,
         ),
         Container(
           margin: const EdgeInsets.all(16.0),
-          child: Center(child: Text(_memeList[random.nextInt(_memeList.length)])),
+          child: Center(child: Text('text: ${text}, value: ${progress}')),
         ),
       ],
     );
   }
 
+  @override
+  void dispose() {
+    progressStreamController.close();
+    textStreamController.close();
+    super.dispose();
+  }
+
+  Stream<String> _generateRandomText() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 1000));
+      yield _memeList[random.nextInt(_memeList.length)];
+    }
+  }
+
   Stream<int> _generateRandomProgress() async* {
     final randomMilliseconds = _generateRandomMilliseconds();
     for (int i = 0; i < randomMilliseconds.length; i++) {
-      var delay = randomMilliseconds[1];
+      final delay = randomMilliseconds[1];
       await Future.delayed(Duration(milliseconds: delay));
-      yield delay;
+      yield i;
     }
   }
 
   List<int> _generateRandomMilliseconds() {
     var min = 10;
-    var max = 150;
+    var max = 350;
+
     return List.generate(100, (_) => min + random.nextInt(max - min));
   }
 }
