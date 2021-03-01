@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pagalba_gydytojui/screen_config.dart';
+import 'package:pagalba_gydytojui/vial/meme_screen.dart';
 
 class VialCalculationScreen extends StatefulWidget {
   final ScreenConfig config;
@@ -87,7 +88,8 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
               '(${vialCount - 1} flakonai pacientams ir 1 atsargai)',
               textScaleFactor: 1.2,
               textAlign: TextAlign.center,
-            )
+            ),
+          MemeScreen()
         ],
       ),
     );
