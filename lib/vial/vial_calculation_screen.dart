@@ -13,6 +13,9 @@ class VialCalculationScreen extends StatefulWidget {
 
 class _VialCalculationScreenState extends State<VialCalculationScreen> {
   final ScreenConfig config;
+  int vialCount;
+  bool isAdditionalVialNeeded = false;
+  final controller = TextEditingController();
 
   _VialCalculationScreenState(this.config);
 
@@ -38,17 +41,48 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
             child: TextFormField(
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
+              controller: controller,
               decoration:
                   InputDecoration(border: OutlineInputBorder(), labelText: 'Pacientų kiekis'),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(onPressed: () {}, child: Padding(
+            child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    // TODO normal validation needed
+                    var patientCount = int.parse(controller.text) ?? 0;
+                    if (patientCount % 6 == 0) {
+                      vialCount = patientCount ~/ 6;
+                      isAdditionalVialNeeded = false;
+                    } else {
+                      vialCount = (patientCount ~/ 6) + 1;
+                      isAdditionalVialNeeded = true;
+                    }
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text('SKAČIUOTI FLAKONUS'),
+                )),
+          ),
+          if (vialCount != null)
+            Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text('SKAČIUOTI FLAKONUS'),
-            )),
-          )
+              child: Text(
+                'Flakonų kiekis: $vialCount',
+                style: TextStyle(fontWeight: FontWeight.bold),
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          if (vialCount != null && isAdditionalVialNeeded)
+            Text(
+              '(${vialCount - 1} pacientams ir 1 atsargai)',
+              textScaleFactor: 1.2,
+              textAlign: TextAlign.center,
+            )
         ],
       ),
     );
