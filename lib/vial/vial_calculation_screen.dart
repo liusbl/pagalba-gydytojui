@@ -7,17 +7,29 @@ class VialCalculationScreen extends StatefulWidget {
   const VialCalculationScreen({Key key, this.config}) : super(key: key);
 
   @override
-  _VialCalculationScreenState createState() => _VialCalculationScreenState();
+  _VialCalculationScreenState createState() => _VialCalculationScreenState(config);
 }
 
 class _VialCalculationScreenState extends State<VialCalculationScreen> {
+  final ScreenConfig config;
+
+  _VialCalculationScreenState(this.config);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Text(config.title),
       ),
-      body: Text('123'),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: TextFormField(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+              labelText: 'Enter your username'
+          ),
+        ),
+      ),
     );
   }
 }

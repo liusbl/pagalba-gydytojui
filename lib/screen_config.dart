@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class ScreenConfig extends Equatable {
   static const list = [configLeucovorin, configVial];
   static const configLeucovorin = ScreenConfig('Leukovarino skaičiuoklė', '/vial-calculation');
-  static const configVial = ScreenConfig('Flakonų skaičiuoklė', '/leucovorin-calculation');
+  static const configVial = ScreenConfig('"Comirnaty" flakonų skaičiuoklė', '/leucovorin-calculation');
 
   final String title;
   final String route;
