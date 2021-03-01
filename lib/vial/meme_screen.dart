@@ -69,9 +69,16 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
             backgroundColor: Colors.blue,
           ),
         ),
-        Container(
-          margin: const EdgeInsets.all(16.0),
-          child: Center(child: Text('text: ${text}, value: ${progress}')),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 20.0,
+              letterSpacing: 2.0,
+              fontFamily: 'ComicSans',
+            ),
+          ),
         ),
       ],
     );
@@ -86,7 +93,7 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
 
   Stream<String> _generateRandomText() async* {
     while (true) {
-      await Future.delayed(Duration(milliseconds: 1500));
+      await Future.delayed(Duration(milliseconds: 2500));
       yield _memeList[random.nextInt(_memeList.length)];
     }
   }
