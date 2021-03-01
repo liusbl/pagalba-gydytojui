@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pagalba_gydytojui/screen_config.dart';
 
 class VialCalculationScreen extends StatefulWidget {
@@ -34,6 +35,8 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: TextFormField(
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.numberWithOptions(signed: false, decimal: false),
               decoration:
                   InputDecoration(border: OutlineInputBorder(), labelText: 'Pacientų kiekis'),
             ),
