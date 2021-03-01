@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pagalba_gydytojui/main/main_card.dart';
 import 'package:pagalba_gydytojui/screen_config.dart';
-
-import 'main_card.dart';
 
 class MainScreen extends StatelessWidget {
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pagalba_gydytojui/main_screen.dart';
+import 'package:pagalba_gydytojui/main/main_screen.dart';
 import 'package:pagalba_gydytojui/screen_config.dart';
 
 void main() {
