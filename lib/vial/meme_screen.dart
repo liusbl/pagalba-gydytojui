@@ -25,9 +25,9 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
   ];
 
   final random = Random();
-  final progressStreamController = new StreamController<int>();
+  final progressStreamController = new StreamController<double>();
   final textStreamController = new StreamController<String>();
-  var progress = 0;
+  var progress = 0.0;
   var text = '';
 
   @override
@@ -61,10 +61,13 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Column(
       children: [
-        LinearProgressIndicator(
-          value: progress / 100,
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.amber),
-          backgroundColor: Colors.blue,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+          child: LinearProgressIndicator(
+            value: progress / 100,
+            valueColor: AlwaysStoppedAnimation<Color>(progress < 100 ? Colors.amber : Colors.green),
+            backgroundColor: Colors.blue,
+          ),
         ),
         Container(
           margin: const EdgeInsets.all(16.0),
@@ -83,24 +86,38 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
 
   Stream<String> _generateRandomText() async* {
     while (true) {
-      await Future.delayed(Duration(milliseconds: 1000));
+      await Future.delayed(Duration(milliseconds: 1500));
       yield _memeList[random.nextInt(_memeList.length)];
     }
   }
 
-  Stream<int> _generateRandomProgress() async* {
+  Stream<double> _generateRandomProgress() async* {
     final randomMilliseconds = _generateRandomMilliseconds();
     for (int i = 0; i < randomMilliseconds.length; i++) {
-      final delay = randomMilliseconds[1];
+      final delay = randomMilliseconds[i];
       await Future.delayed(Duration(milliseconds: delay));
-      yield i;
+      yield i / 2;
     }
   }
 
   List<int> _generateRandomMilliseconds() {
     var min = 10;
-    var max = 350;
+    var max = 80;
+    final randomStoppages = [
+      min + random.nextInt(max - min),
+      min + random.nextInt(max - min),
+      min + random.nextInt(max - min),
+      min + random.nextInt(max - min),
+      min + random.nextInt(max - min)
+    ];
 
-    return List.generate(100, (_) => min + random.nextInt(max - min));
+    return List.generate(202, (value) {
+      final randomValue = min + random.nextInt(max - min);
+      if (randomStoppages.contains(randomValue)) {
+        return 200 + random.nextInt(600 - 200);
+      } else {
+        return randomValue;
+      }
+    });
   }
 }
