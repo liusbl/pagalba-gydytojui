@@ -19,16 +19,26 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(config.title),
+        title: Text('Flakonų skaičiuoklė'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: TextFormField(
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-              labelText: 'Enter your username'
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Text(
+              'Kiek pacientų užregistruota vakcinavimui ryojui?',
+              textAlign: TextAlign.start,
+              textScaleFactor: 1.5,
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: TextFormField(
+              decoration:
+                  InputDecoration(border: OutlineInputBorder(), labelText: 'Pacientų kiekis'),
+            ),
+          ),
+        ],
       ),
     );
   }
