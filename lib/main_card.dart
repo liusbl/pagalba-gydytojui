@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pagalba_gydytojui/screen_config.dart';
 
 class MainCard extends StatelessWidget {
-  final String text;
+  final ScreenConfig config;
 
-  const MainCard({Key key, this.text}) : super(key: key);
+  const MainCard({Key key, this.config}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +13,12 @@ class MainCard extends StatelessWidget {
       child: Card(
         elevation: 5,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, config.route);
+          },
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(text),
+            child: Text(config.title),
           ),
         ),
       ),
