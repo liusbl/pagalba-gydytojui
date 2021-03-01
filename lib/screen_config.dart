@@ -1,26 +1,15 @@
 import 'package:equatable/equatable.dart';
 
 class ScreenConfig extends Equatable {
-  static const list = [
-    ScreenConfig(idLeucovorin, 'Leukovarino skaičiuoklė', '/vial-calculation'),
-    ScreenConfig(idVial, 'Flakonų skaičiuoklė', '/leucovorin-calculation')
-  ];
-  static const idLeucovorin = 'LEUCOVORIN';
-  static const idVial = 'VIAL';
+  static const list = [configLeucovorin, configVial];
+  static const configLeucovorin = ScreenConfig('Leukovarino skaičiuoklė', '/vial-calculation');
+  static const configVial = ScreenConfig('Flakonų skaičiuoklė', '/leucovorin-calculation');
 
-  final String id;
   final String title;
   final String route;
 
-  const ScreenConfig(this.id, this.title, this.route);
-
-  static String getRouteById(String id) => list.getById(id).route;
+  const ScreenConfig(this.title, this.route);
 
   @override
-  List<Object> get props => [id, title, route];
-}
-
-extension ScreenConfigSearch on List<ScreenConfig> {
-  ScreenConfig getById(String id) =>
-      ScreenConfig.list.firstWhere((element) => element.id == id);
+  List<Object> get props => [title, route];
 }
