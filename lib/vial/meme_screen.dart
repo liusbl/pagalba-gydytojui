@@ -130,7 +130,6 @@ class _MemeScreenState extends State<MemeScreen> with SingleTickerProviderStateM
       min + random.nextInt(max - min),
       min + random.nextInt(max - min),
       min + random.nextInt(max - min),
-      min + random.nextInt(max - min),
       min + random.nextInt(max - min)
     ];
 
