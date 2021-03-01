@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pagalba_gydytojui/screen_config.dart';
+import 'package:pagalba_gydytojui/vial/meme_screen.dart';
 
 class VialCalculationScreen extends StatefulWidget {
   final ScreenConfig config;
@@ -15,6 +16,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
   final ScreenConfig config;
   int vialCount;
   bool isAdditionalVialNeeded = false;
+  bool isFinished = false;
   final controller = TextEditingController();
 
   _VialCalculationScreenState(this.config);
@@ -51,14 +53,19 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
             child: ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    // TODO normal validation needed
-                    var patientCount = int.parse(controller.text) ?? 0;
-                    if (patientCount % 6 == 0) {
-                      vialCount = patientCount ~/ 6;
+                    isFinished = false;
+                    var patientCount = int.tryParse(controller.text);
+                    if (patientCount == null) {
+                      vialCount = null;
                       isAdditionalVialNeeded = false;
                     } else {
-                      vialCount = (patientCount ~/ 6) + 1;
-                      isAdditionalVialNeeded = true;
+                      if (patientCount % 6 == 0) {
+                        vialCount = patientCount ~/ 6;
+                        isAdditionalVialNeeded = false;
+                      } else {
+                        vialCount = (patientCount ~/ 6) + 1;
+                        isAdditionalVialNeeded = true;
+                      }
                     }
                   });
                 },
@@ -67,7 +74,7 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                   child: Text('SKAČIUOTI FLAKONUS'),
                 )),
           ),
-          if (vialCount != null)
+          if (vialCount != null && isFinished)
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
@@ -77,12 +84,18 @@ class _VialCalculationScreenState extends State<VialCalculationScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-          if (vialCount != null && isAdditionalVialNeeded)
+          if (vialCount != null && isFinished && isAdditionalVialNeeded)
             Text(
-              '(${vialCount - 1} pacientams ir 1 atsargai)',
+              '(${vialCount - 1} flakonai pacientams ir 1 atsargai)',
               textScaleFactor: 1.2,
               textAlign: TextAlign.center,
-            )
+            ),
+          if (vialCount != null && !isFinished)
+            MemeScreen(onDone: () {
+              setState(() {
+                isFinished = true;
+              });
+            })
         ],
       ),
     );
