@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('sdf'),
+          title: Text('Pagalba Gydytojui'),
         ),
         body: MainScreen(),
       ),
