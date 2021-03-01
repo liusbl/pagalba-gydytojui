@@ -26,7 +26,6 @@ class MemeScreen extends StatelessWidget {
         LinearProgressIndicator(),
         Container(
           margin: const EdgeInsets.all(16.0),
-          color: Colors.blue[200],
           child: Center(child: Text(_memeList[random.nextInt(_memeList.length)])),
         ),
       ],
