@@ -7,8 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'file:///C:/AndroidProjects/pagalba_gydytojui/lib/main/main.dart';
+import 'package:pagalba_gydytojui/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
